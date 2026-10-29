@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Caligrafia Devocional — Antes de conhecer</title>
+  <meta name="description" content="Responda 3 perguntas rápidas e conheça a Caligrafia Devocional: letra cursiva com os Salmos para crianças de 7 a 12 anos.">
+  <meta name="theme-color" content="#12384A">
+  <meta property="og:title" content="Caligrafia Devocional — Salmos para crianças">
+  <meta property="og:description" content="Letra cursiva bonita e um devocional diário com os Salmos. Para imprimir em casa.">
+  <meta property="og:image" content="assets/img/og-compartilhamento.jpg">
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/img-14-quiz-atividade-real.webp">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <style>
+    body {
+      min-height: 100svh;
+      background:
+        radial-gradient(120% 60% at 0% 0%, #E6EEF3 0%, rgba(230,238,243,0) 60%),
+        radial-gradient(120% 60% at 100% 100%, #F6EEDD 0%, rgba(246,238,221,0) 60%),
+        #F9FAFA;
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px 14px calc(16px + env(safe-area-inset-bottom));
+    }
+    .quiz {
+      width: 100%; max-width: 440px;
+      background: var(--branco);
+      border-radius: 26px;
+      box-shadow: 0 24px 60px rgba(11, 38, 51, .14), 0 0 0 1px rgba(18, 56, 74, .05);
+      overflow: hidden;
+    }
+    .quiz__media { aspect-ratio: 16 / 11; overflow: hidden; background: var(--creme-2); transition: max-height .45s ease, opacity .3s ease; max-height: 320px; }
+    .quiz__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
+    .quiz__media.is-hidden { max-height: 0; opacity: 0; }
+    .quiz__body { padding: 22px 22px 24px; text-align: center; }
+    .quiz__eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--dourado-escuro); }
+    .quiz__brand { margin-top: 6px; font-size: 26px; color: var(--petroleo); }
+    .quiz__sub { margin-top: 6px; font-size: 15px; color: var(--texto-3); }
+
+    .progress { display: flex; align-items: center; gap: 12px; margin: 20px 0 6px; }
+    .progress__track { flex: 1; height: 7px; border-radius: 99px; background: #E8EDF0; overflow: hidden; }
+    .progress__fill { height: 100%; width: 33.3%; border-radius: 99px; background: linear-gradient(90deg, #9BB8C8, var(--petroleo)); transition: width .45s cubic-bezier(.2,.8,.2,1); }
+    .progress__count { font-size: 13px; font-weight: 800; color: var(--texto-3); min-width: 28px; text-align: right; }
+
+    .stage { position: relative; }
+    .step { animation: stepIn .38s cubic-bezier(.2,.8,.2,1) both; }
+    .step.is-leaving { animation: stepOut .22s ease both; }
+    @keyframes stepIn { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: none; } }
+    @keyframes stepOut { to { opacity: 0; transform: translateX(-22px); } }
+
+    .step__q { margin: 16px 0 16px; font-size: 21px; font-weight: 900; color: var(--petroleo-escuro); line-height: 1.25; }
+    .opts { display: grid; gap: 10px; }
+    .opt {
+      display: flex; align-items: center; gap: 12px;
+      width: 100%; min-height: 56px; padding: 12px 16px;
+      background: var(--branco); color: var(--texto);
+      border: 1.5px solid #D8E3EA; border-radius: 14px;
+      font-weight: 800; font-size: 16px; text-align: left; cursor: pointer;
+      transition: background .15s, border-color .15s, transform .12s, box-shadow .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .opt__emoji { font-size: 22px; width: 30px; text-align: center; }
+    .opt:active { transform: scale(.985); }
+    .opt.is-picked { background: #EAF2F6; border-color: var(--petroleo); box-shadow: 0 6px 16px rgba(18,56,74,.12); }
+    @media (hover: hover) { .opt:hover { border-color: #9BB8C8; background: #F6FAFB; } }
+
+    .skip { display: inline-block; margin-top: 18px; font-size: 14px; color: var(--texto-3); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Resultado */
+    .result__check { width: 60px; height: 60px; margin: 4px auto 14px; border-radius: 50%; display: grid; place-items: center; background: #EAF2F6; color: var(--petroleo); animation: pop .5s cubic-bezier(.2,1.4,.4,1) both; }
+    .result__check .ic { width: 30px; height: 30px; stroke-width: 2.6; }
+    @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+    .result__title { font-size: 24px; color: var(--petroleo-escuro); }
+    .result__text { margin-top: 10px; font-size: 16px; color: var(--texto-2); }
+    .result__thanks { margin-top: 18px; font-size: 15px; font-weight: 800; color: var(--texto); }
+    .coupon {
+      position: relative; margin: 14px auto 8px; padding: 16px 18px;
+      border: 2px dashed #D9A441; border-radius: 16px;
+      background: linear-gradient(135deg, #FFF8E4, #FCEBBE);
+      box-shadow: 0 10px 24px rgba(217,164,65,.22);
+      animation: pop .55s .15s cubic-bezier(.2,1.4,.4,1) both;
+    }
+    .coupon::before, .coupon::after { content: ""; position: absolute; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%; background: var(--branco); }
+    .coupon::before { left: -11px; } .coupon::after { right: -11px; }
+    .coupon__label { font-size: 12px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: var(--dourado-escuro); }
+    .coupon__value { margin: 2px 0; font-size: 30px; font-weight: 900; color: #A9620F; line-height: 1.1; }
+    .coupon__sub { font-size: 12px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--dourado-escuro); }
+    .coupon__pct { display: inline-block; padding: 2px 7px; margin-right: 4px; border-radius: 6px; background: var(--verde); color: #fff; letter-spacing: .06em; }
+    .result__hint { margin: 10px 0 16px; font-size: 14px; color: var(--texto-3); }
+    .result .btn { text-transform: none; font-size: 17px; border-radius: 16px; }
+  </style>
+</head>
+<body>
+  <main class="quiz" aria-live="polite">
+    <div class="quiz__media" id="media">
+      <img src="assets/img/img-14-quiz-atividade-real.webp" width="1280" height="880" alt="Duas atividades reais da Caligrafia Devocional: Salmo 23:1 e Salmo 16:11, com cursiva pontilhada, complete de memória e palavra do dia">
+    </div>
+
+    <div class="quiz__body">
+      <div id="head">
+        <p class="quiz__eyebrow">Antes de conhecer</p>
+        <h1 class="quiz__brand">Caligrafia Devocional</h1>
+        <p class="quiz__sub">Responda 3 perguntas rápidas.</p>
+        <div class="progress" aria-hidden="true">
+          <div class="progress__track"><div class="progress__fill" id="fill"></div></div>
+          <span class="progress__count" id="count">1/3</span>
+        </div>
+      </div>
+
+      <div class="stage" id="stage"></div>
+
+      <a class="skip" id="skip" href="oferta.html">Quero conhecer a Caligrafia Devocional agora</a>
+    </div>
+  </main>
+
+  <template id="tpl-result">
+    <div class="step result">
+      <div class="result__check"><svg class="ic" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h2 class="result__title">A Caligrafia Devocional combina com a sua família.</h2>
+      <p class="result__text" id="result-text"></p>
+      <p class="result__thanks">Obrigado por responder! Separamos para você:</p>
+      <div class="coupon">
+        <p class="coupon__label">Cupom liberado</p>
+        <p class="coupon__value">R$ 20 de desconto</p>
+        <p class="coupon__sub"><span class="coupon__pct">50% OFF</span> na Caligrafia Devocional</p>
+      </div>
+      <p class="result__hint">Veja como funciona e use o seu desconto.</p>
+      <a class="btn btn--pulse" id="go" href="oferta.html">Ver a Caligrafia Devocional com desconto
+        <svg class="ic" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </template>
+
+  <script>
+    // Perguntas do quiz. Qualquer combinação leva à mesma página; as respostas só
+    // personalizam o texto do resultado e o topo da página (via parâmetro "foco").
+    const STEPS = [
+      { key: 'para', q: 'Para quem seria a Caligrafia Devocional?', opts: [
+        { v: 'filho',  e: '👦', t: 'Para o meu filho' },
+        { v: 'filha',  e: '👧', t: 'Para a minha filha' },
+        { v: 'varios', e: '👨‍👩‍👧‍👦', t: 'Para mais de uma criança' },
+        { v: 'aluno',  e: '📚', t: 'Para meus alunos ou a EBD' } ] },
+      { key: 'foco', q: 'O que você mais gostaria de ver melhorar?', opts: [
+        { v: 'biblia',  e: '📖', t: 'Mais intimidade com a Bíblia' },
+        { v: 'telas',   e: '📱', t: 'Menos tempo nas telas' },
+        { v: 'escrita', e: '✏️', t: 'Uma letra mais bonita' },
+        { v: 'rotina',  e: '🏡', t: 'Um momento de fé em família' } ] },
+      { key: 'freq', q: 'Hoje, com que frequência a criança lê ou escreve a Bíblia em casa?', opts: [
+        { v: 'diario', e: '🌟', t: 'Todos os dias' },
+        { v: 'as-vezes', e: '🙂', t: 'Algumas vezes na semana' },
+        { v: 'raro', e: '😕', t: 'Quase nunca' },
+        { v: 'nunca', e: '🌱', t: 'Ainda não começamos' } ] }
+    ];
+
+    const RESULT_TEXT = {
+      biblia:  'Em poucos minutos por dia, a criança copia um Salmo, entende o que ele quer dizer e guarda a Palavra no coração.',
+      telas:   'É uma troca saudável para o tempo de tela: o lápis ocupa o lugar do celular, com um Salmo por dia e um tempo de qualidade com Deus.',
+      escrita: 'Com o treino no pontilhado e a escrita livre, a letra cursiva fica mais bonita e legível a cada página, escrevendo os Salmos.',
+      rotina:  'Uma página por dia vira um pequeno devocional em família: escrever, ler o Salmo e conversar sobre ele juntos.'
+    };
+
+    const answers = {};
+    let i = 0;
+    const $ = id => document.getElementById(id);
+    const stage = $('stage');
+
+    // Mantém UTMs e parâmetros do anúncio ao seguir para a página
+    function offerUrl(withCoupon) {
+      const p = new URLSearchParams(location.search);
+      if (withCoupon) p.set('origem', 'quiz');
+      Object.entries(answers).forEach(([k, v]) => p.set(k, v));
+      const qs = p.toString();
+      return 'oferta.html' + (qs ? '?' + qs : '');
+    }
+
+    function renderStep() {
+      const s = STEPS[i];
+      $('fill').style.width = ((i + 1) / STEPS.length * 100) + '%';
+      $('count').textContent = (i + 1) + '/' + STEPS.length;
+      $('media').classList.toggle('is-hidden', i > 0);
+      const el = document.createElement('div');
+      el.className = 'step';
+      el.innerHTML = '<h2 class="step__q">' + (i + 1) + '. ' + s.q + '</h2><div class="opts" role="list"></div>';
+      const list = el.querySelector('.opts');
+      s.opts.forEach(o => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.setAttribute('role', 'listitem');
+        b.innerHTML = '<span class="opt__emoji" aria-hidden="true">' + o.e + '</span><span>' + o.t + '</span>';
+        b.addEventListener('click', () => pick(s.key, o.v, b), { once: true });
+        list.appendChild(b);
+      });
+      swap(el);
+    }
+
+    function pick(key, value, btn) {
+      answers[key] = value;
+      btn.classList.add('is-picked');
+      stage.querySelectorAll('.opt').forEach(b => b.disabled = true);
+      if (navigator.vibrate) navigator.vibrate(12);
+      setTimeout(() => { i++; i < STEPS.length ? renderStep() : renderResult(); }, 320);
+    }
+
+    function renderResult() {
+      $('head').style.display = 'none';
+      $('skip').style.display = 'none';
+      const el = $('tpl-result').content.firstElementChild.cloneNode(true);
+      el.querySelector('#result-text').textContent = RESULT_TEXT[answers.foco] || RESULT_TEXT.biblia;
+      el.querySelector('#go').href = offerUrl(true);
+      swap(el);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function swap(el) {
+      const old = stage.firstElementChild;
+      if (!old) { stage.appendChild(el); return; }
+      old.classList.add('is-leaving');
+      setTimeout(() => { old.remove(); stage.appendChild(el); }, 200);
+    }
+
+    $('skip').href = offerUrl(false);
+    $('skip').addEventListener('click', () => { $('skip').href = offerUrl(false); });
+    renderStep();
+  </script>
+</body>
+</html>

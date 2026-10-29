@@ -1,0 +1,89 @@
+/* Caligrafia Devocional — base compartilhada (quiz + página de vendas)
+   Mobile-first: o layout é pensado para 360–430px; no desktop a coluna fica centralizada. */
+
+:root {
+  /* Marca */
+  --petroleo: #12384A;
+  --petroleo-escuro: #0B2633;
+  --petroleo-noite: #081C26;
+  --dourado: #D9A441;
+  --dourado-escuro: #8F6420;
+  --dourado-claro: #E9C987;
+
+  /* Fundos */
+  --creme: #FBF7EF;
+  --creme-2: #F5EEDF;
+  --creme-3: #FFFDF8;
+  --branco: #FFFFFF;
+  --cinza-claro: #F4F5F6;
+  --gelo: #EEF4F7;      /* contraste frio (papel da lavanda na referência) */
+  --mel-claro: #F6E2AE; /* contraste quente (papel do amarelo na referência) */
+
+  /* Texto */
+  --texto: #1F2A33;
+  --texto-2: #52606B;
+  --texto-3: #7A8791;
+
+  /* Conversão */
+  --verde: #1F9D55;
+  --verde-cta: linear-gradient(100deg, #158446 0%, #1FA457 50%, #4FBF3A 100%);
+  --verde-preco: #168A4A;
+  --vermelho: #C8483F;
+
+  --raio: 18px;
+  --raio-sm: 12px;
+  --sombra: 0 10px 30px rgba(18, 56, 74, .10);
+  --sombra-forte: 0 18px 40px rgba(18, 56, 74, .18);
+  --coluna: 480px;
+  --gutter: 20px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--texto);
+  background: var(--creme);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+button { font: inherit; }
+h1, h2, h3, h4 { margin: 0; line-height: 1.2; font-weight: 900; letter-spacing: -.01em; }
+p { margin: 0; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Ícones SVG de traço (estilo Lucide) */
+.ic { width: 1.2em; height: 1.2em; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Botão principal */
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; min-height: 60px; padding: 16px 22px;
+  border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--verde-cta); color: #fff;
+  font-weight: 900; font-size: 17px; letter-spacing: .02em; text-transform: uppercase; text-decoration: none; text-align: center;
+  box-shadow: 0 12px 26px rgba(31, 157, 85, .35), inset 0 -3px 0 rgba(0, 0, 0, .12);
+  transition: transform .15s ease, box-shadow .15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(.98); box-shadow: 0 6px 14px rgba(31, 157, 85, .35); }
+.btn .ic { width: 22px; height: 22px; }
+.btn--pulse { animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 12px 26px rgba(31,157,85,.35), 0 0 0 0 rgba(31,157,85,.35); } 50% { box-shadow: 0 12px 26px rgba(31,157,85,.35), 0 0 0 10px rgba(31,157,85,0); } }
+
+/* Animação de entrada ao rolar */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn--pulse { animation: none; }
+}
