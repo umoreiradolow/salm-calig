@@ -27,6 +27,11 @@ if (CHECKOUT_URL) {
   params.forEach((v, k) => { if (!url.searchParams.has(k)) url.searchParams.set(k, v); });
   document.querySelectorAll('.js-checkout').forEach(a => { a.href = url.toString(); });
 }
+// O InitiateCheckout da Meta é disparado pelo Pixel da UTMify ao clicar num link de checkout (pay.wiapy.com);
+// aqui só vai o equivalente do GA4, para não contar em dobro na Meta.
+document.querySelectorAll('.js-checkout').forEach(a => a.addEventListener('click', () => {
+  try { if (window.gtag) gtag('event', 'begin_checkout', { currency: 'BRL', value: 19.90 }); } catch (e) {}
+}));
 
 // 4. Animação de entrada ao rolar
 const io = new IntersectionObserver(entries => {
